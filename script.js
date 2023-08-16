@@ -10,13 +10,14 @@ let operator = "";
 //create events for each button
 document.addEventListener("DOMContentLoaded", () => {
     let textInput = document.querySelector('.input-text');
-    const answer = document.getElementById('answer');
+    let answer = document.getElementById('answer');
     
     let numbers = document.querySelectorAll('.btnNumber');
     let operations = document.querySelectorAll('.btnOperator');
     let equalsBtn = document.querySelector('.btnEquals');
     let clearBtn = document.querySelector('.btnClear');
-    let decimal = document.querySelector('.btnDecimal');
+    let deleteBtn = document.querySelector('.btnDelete');
+    let intBtn = document.querySelector('.btnInt');
 
     //handles each number, add numbers to tect input
     numbers.forEach((number) => number.addEventListener('click', function(e){
@@ -46,11 +47,24 @@ document.addEventListener("DOMContentLoaded", () => {
     //when selected, called operation which handles the math
     equalsBtn.addEventListener('click', function(e){
         answer.textContent = operation();
+        currentValue = operation();
+    })
+
+    //delete the last number, using splice
+    deleteBtn.addEventListener('click', function(e){
+        currentValue = currentValue.slice(0, -1);
+        console.log(currentValue)
+        textInput.textContent = previousValue + " " + operator + " " + currentValue;
+    })
+
+    intBtn.addEventListener('click', function(e){
+        negativeNum(currentValue);
+        console.log(currentValue);
     })
 })
 
 function handleNumber(number){
-    if(currentValue.length <= 10){
+    if(currentValue.length <= 15){
         currentValue += number;
     }
 }
@@ -62,6 +76,7 @@ function handleOperator(op){
     currentValue = " ";
 }
 
+//handles the math operations
 function operation(){
     previousValue = Number(previousValue);
     currentValue = Number(currentValue);
@@ -81,10 +96,3 @@ function operation(){
 function round(num){
     return Math.round(num * 1000)/1000;
 }
-
-
-/*
-clearBtn.addEventListener('click', () => {
-    textInput.innerHTML = '';
-    answer.innerHTML = '';
-});*/
